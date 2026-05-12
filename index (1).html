@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samuel Olagoke — Applied AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Barlow+Condensed:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --navy:#071525;
+  --navy-2:#0D2040;
+  --navy-3:#152D55;
+  --white:#FFFFFF;
+  --off:#F5F4F0;
+  --g100:#E4E3DE;
+  --g300:#ABABAA;
+  --g500:#6B6B6A;
+  --g700:#2E2E2D;
+  --accent:#1A6BFF;
+  --accent-2:#00C4FF;
+  --rule:rgba(255,255,255,0.12);
+  --rule-light:rgba(7,21,37,0.1);
+  --fs-display:clamp(3.2rem,8vw,7.5rem);
+  --fs-h1:clamp(2rem,4vw,3.5rem);
+  --fs-h2:clamp(1.4rem,2.5vw,2rem);
+  --fs-body:1rem;
+  --fs-small:0.85rem;
+  --fs-label:0.72rem;
+  --font-head:'Barlow Condensed',sans-serif;
+  --font-body:'Barlow',sans-serif;
+  --font-mono:'IBM Plex Mono',monospace;
+  --ease:cubic-bezier(0.25,0,0,1);
+}
+
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-body);background:var(--off);color:var(--navy);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* SCROLL PROGRESS */
+.scroll-progress{position:fixed;top:56px;left:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0;z-index:200;transition:width 0.08s linear;pointer-events:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);height:56px;background:rgba(7,21,37,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+.nav-logo{font-family:var(--font-head);font-weight:700;font-size:1rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--white);text-decoration:none}
+.nav-logo span{color:var(--accent-2)}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-family:var(--font-head);font-size:var(--fs-label);font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--g300);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--accent-2)}
+.nav-cta{font-family:var(--font-head);font-size:var(--fs-label);font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent-2);border:1px solid var(--accent-2);padding:0.4em 1.2em;text-decoration:none;transition:background 0.2s,color 0.2s}
+.nav-cta:hover{background:var(--accent-2);color:var(--navy)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--white);transition:transform 0.3s}
+
+/* HERO — cinematic split */
+#hero{min-height:100vh;background:var(--navy);position:relative;overflow:hidden;padding-top:56px}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(26,107,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,107,255,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-inner{display:grid;grid-template-columns:1fr 1.1fr;min-height:calc(100vh - 56px);position:relative;z-index:1}
+.hero-photo{position:relative;overflow:hidden;background:#0a1828}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 22%;filter:grayscale(0.18) contrast(1.05) brightness(0.92);transform:scale(1.05);will-change:transform}
+.hero-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(7,21,37,0.6) 100%);pointer-events:none}
+.hero-photo-tag{position:absolute;left:1.25rem;bottom:1.25rem;font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent-2);background:rgba(7,21,37,0.72);padding:0.45em 0.95em;border:1px solid rgba(0,196,255,0.3);z-index:2}
+.hero-content{display:flex;flex-direction:column;justify-content:center;padding:clamp(2rem,6vw,5rem) clamp(1.75rem,5vw,4rem);position:relative}
+.hero-eyebrow{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem}
+.hero-eyebrow-line{width:40px;height:1px;background:var(--accent-2)}
+.hero-eyebrow-text{font-family:var(--font-mono);font-size:var(--fs-label);letter-spacing:0.2em;text-transform:uppercase;color:var(--accent-2)}
+.hero-name{font-family:var(--font-head);font-size:clamp(2.6rem,7vw,6rem);font-weight:800;line-height:0.92;letter-spacing:-0.01em;text-transform:uppercase;color:var(--white);margin-bottom:0.15em}
+.hero-name .first,.hero-name .last{display:block;overflow:hidden;padding-bottom:0.05em}
+.hero-name .last{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,0.35)}
+.hero-name .first span,.hero-name .last span{display:inline-block;transform:translateY(110%);animation:slideUp 1s var(--ease) forwards}
+.hero-name .last span{animation-delay:0.18s}
+@keyframes slideUp{to{transform:translateY(0)}}
+.hero-rule{width:80px;height:1px;background:var(--rule);margin:1.5rem 0}
+.hero-tagline{font-family:var(--font-head);font-size:clamp(1rem,1.8vw,1.35rem);font-weight:300;letter-spacing:0.05em;text-transform:uppercase;color:var(--g300);line-height:1.55;max-width:480px;margin-bottom:2rem}
+.hero-tagline strong{color:var(--white);font-weight:600}
+.hero-actions{display:flex;gap:0.75rem;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--font-head);font-size:var(--fs-label);font-weight:700;letter-spacing:0.18em;text-transform:uppercase;background:var(--accent);color:var(--white);padding:0.9em 2em;text-decoration:none;transition:all 0.25s var(--ease);white-space:nowrap}
+.btn-primary:hover{background:var(--accent-2);color:var(--navy);transform:translateY(-2px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--font-head);font-size:var(--fs-label);font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--g300);padding:0.9em 2em;border:1px solid rgba(255,255,255,0.2);text-decoration:none;transition:all 0.25s var(--ease);white-space:nowrap;background:transparent}
+.btn-ghost:hover{border-color:var(--white);color:var(--white);transform:translateY(-2px)}
+.hero-scroll-hint{position:absolute;bottom:1.5rem;right:1.5rem;display:flex;flex-direction:column;align-items:center;gap:0.6rem;font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--g500);z-index:3}
+.hero-scroll-hint::after{content:'';width:1px;height:32px;background:linear-gradient(to bottom,var(--g500),transparent);animation:scrollLine 2s ease-in-out infinite;transform-origin:top}
+@keyframes scrollLine{0%,100%{transform:scaleY(0.3);opacity:0.4}50%{transform:scaleY(1);opacity:1}}
+
+/* SECTION BASE */
+section{padding:clamp(5rem,12vh,9rem) clamp(1.5rem,5vw,4rem);position:relative}
+.sec-label{display:flex;align-items:center;gap:1rem;margin-bottom:3rem}
+.sec-num{font-family:var(--font-mono);font-size:var(--fs-label);color:var(--accent);letter-spacing:0.1em}
+.sec-title-line{flex:1;height:1px;background:var(--rule-light)}
+.sec-heading{font-family:var(--font-head);font-size:var(--fs-h1);font-weight:700;letter-spacing:-0.01em;text-transform:uppercase;line-height:1;color:var(--navy)}
+.sec-heading-light{color:var(--white)}
+
+/* ABOUT — sticky meta column */
+#about{background:var(--white)}
+.about-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:clamp(2rem,6vw,6rem);align-items:start;margin-top:1rem}
+.about-left{position:sticky;top:90px}
+.about-meta{margin-bottom:2rem}
+.about-meta-item{display:flex;align-items:center;gap:1rem;padding:0.9rem 0;border-bottom:1px solid var(--rule-light)}
+.about-meta-key{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--g300);width:90px;flex-shrink:0}
+.about-meta-val{font-family:var(--font-head);font-size:0.95rem;font-weight:500;color:var(--navy)}
+.about-badge{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;background:var(--navy);color:var(--off);padding:0.45em 1em;margin-top:1.5rem}
+.about-badge::before{content:'';width:6px;height:6px;background:var(--accent-2);flex-shrink:0;animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.about-intro{font-size:clamp(1.15rem,1.8vw,1.35rem);font-weight:300;line-height:1.65;color:var(--navy);margin-bottom:1.5rem;letter-spacing:0.005em}
+.about-intro strong{font-weight:600;color:var(--navy)}
+.about-body{font-size:1rem;line-height:1.85;color:var(--g500);margin-bottom:2.5rem}
+.about-pillars{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule-light);border:1px solid var(--rule-light)}
+.pillar{background:var(--white);padding:1.2rem 1.4rem;transition:background 0.25s var(--ease)}
+.pillar:hover{background:var(--off)}
+.pillar-icon{width:28px;height:2px;background:var(--accent);margin-bottom:0.9rem;transition:width 0.3s var(--ease)}
+.pillar:hover .pillar-icon{width:48px}
+.pillar-title{font-family:var(--font-head);font-size:0.8rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--navy);margin-bottom:0.35rem}
+.pillar-text{font-size:0.82rem;color:var(--g500);line-height:1.6}
+
+/* PROJECTS — pinned scrollytelling */
+#projects{background:var(--off);padding:0;position:relative}
+.projects-header{padding:clamp(5rem,12vh,9rem) clamp(1.5rem,5vw,4rem) 0}
+.projects-stage{display:grid;grid-template-columns:1fr 1.1fr;gap:0;position:relative}
+.projects-pin{position:sticky;top:56px;height:calc(100vh - 56px);display:block;padding:clamp(2.5rem,5vw,4rem);background:var(--navy);overflow:hidden}
+.projects-pin-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(26,107,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(26,107,255,0.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.projects-pin-glow{position:absolute;width:65%;height:65%;background:radial-gradient(circle,rgba(0,196,255,0.08) 0%,transparent 70%);left:30%;top:25%;pointer-events:none;transition:all 0.6s var(--ease)}
+.project-visual{position:absolute;inset:clamp(2.5rem,5vw,4rem);display:flex;flex-direction:column;justify-content:space-between;opacity:0;transform:translateY(20px);transition:opacity 0.6s var(--ease),transform 0.6s var(--ease);pointer-events:none}
+.project-visual.active{opacity:1;transform:none;pointer-events:auto}
+.pv-num{font-family:var(--font-head);font-size:clamp(7rem,18vw,15rem);font-weight:800;line-height:0.85;color:transparent;-webkit-text-stroke:1.5px rgba(0,196,255,0.4);letter-spacing:-0.04em}
+.pv-meta{display:flex;flex-direction:column;gap:0.5rem;max-width:90%}
+.pv-eyebrow{font-family:var(--font-mono);font-size:0.66rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent-2);margin-bottom:0.3rem}
+.pv-title{font-family:var(--font-head);font-size:clamp(1.4rem,2.6vw,2.2rem);font-weight:700;letter-spacing:0.02em;text-transform:uppercase;color:var(--white);line-height:1.05}
+.pv-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:1rem}
+.pv-tag{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--g300);border:1px solid var(--rule);padding:0.3em 0.7em}
+.pv-cta{margin-top:1.5rem;display:inline-flex;align-items:center;gap:0.6rem;font-family:var(--font-head);font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent-2);text-decoration:none;border-bottom:1px solid rgba(0,196,255,0.4);padding-bottom:0.4em;width:fit-content;transition:gap 0.25s var(--ease)}
+.pv-cta:hover{gap:1rem;color:var(--white);border-color:var(--white)}
+.pv-cta::after{content:'→'}
+
+.projects-scroll{padding:clamp(3rem,6vh,5rem) clamp(1.5rem,4vw,3rem)}
+.project-step{min-height:calc(100vh - 56px);display:flex;flex-direction:column;justify-content:center;padding:2rem 0;position:relative}
+.step-eyebrow{font-family:var(--font-mono);font-size:var(--fs-label);letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.step-title{font-family:var(--font-head);font-size:clamp(1.6rem,3vw,2.3rem);font-weight:700;letter-spacing:0.01em;text-transform:uppercase;color:var(--navy);margin-bottom:1.2rem;line-height:1.1}
+.step-desc{font-size:1rem;line-height:1.85;color:var(--g500);max-width:540px;margin-bottom:1.5rem}
+.step-meta{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--g100);border:1px solid var(--g100);max-width:540px;margin-bottom:1.75rem}
+.step-meta-item{background:var(--white);padding:1rem 1.2rem}
+.step-meta-key{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--g300);margin-bottom:0.35rem}
+.step-meta-val{font-family:var(--font-head);font-size:0.9rem;font-weight:600;color:var(--navy)}
+.step-links{display:flex;gap:0.75rem;flex-wrap:wrap}
+.step-links a{font-family:var(--font-head);font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--navy);border:1px solid var(--navy);padding:0.8em 1.5em;text-decoration:none;transition:all 0.2s var(--ease)}
+.step-links a:hover{background:var(--navy);color:var(--white)}
+.step-links a.primary{background:var(--navy);color:var(--white)}
+.step-links a.primary:hover{background:var(--accent);border-color:var(--accent)}
+
+/* SKILLS */
+#skills{background:var(--navy);position:relative;overflow:hidden}
+.skills-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(26,107,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,107,255,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:1rem;position:relative;z-index:1}
+.skill-col{background:var(--navy);padding:clamp(1.5rem,3vw,2.2rem);transition:background 0.3s var(--ease)}
+.skill-col:hover{background:var(--navy-2)}
+.skill-col-title{font-family:var(--font-head);font-size:0.72rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent-2);margin-bottom:1.5rem;padding-bottom:0.75rem;border-bottom:1px solid var(--rule)}
+.skill-item{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.9rem;transition:transform 0.2s var(--ease)}
+.skill-item::before{content:'';width:4px;height:4px;background:var(--g500);flex-shrink:0;transition:all 0.2s var(--ease)}
+.skill-item span{font-family:var(--font-body);font-size:0.88rem;font-weight:400;color:var(--g300);letter-spacing:0.02em;transition:color 0.2s}
+.skill-item:hover{transform:translateX(4px)}
+.skill-item:hover span{color:var(--white)}
+.skill-item:hover::before{background:var(--accent-2);width:8px}
+
+/* LEADERSHIP — slim */
+#experience{background:var(--white)}
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,3vw,2.5rem);margin-top:1rem}
+.exp-card{border:1px solid var(--rule-light);padding:clamp(1.5rem,3vw,2.2rem);position:relative;transition:all 0.25s var(--ease)}
+.exp-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.exp-card::before{content:attr(data-num);position:absolute;top:1.5rem;right:1.5rem;font-family:var(--font-mono);font-size:2rem;font-weight:400;color:var(--g100);line-height:1}
+.exp-org{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem}
+.exp-role{font-family:var(--font-head);font-size:clamp(1rem,1.6vw,1.2rem);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:var(--navy);margin-bottom:1rem;line-height:1.2;max-width:260px}
+.exp-points{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.exp-points li{display:flex;gap:0.6rem;font-size:0.85rem;line-height:1.55;color:var(--g500)}
+.exp-points li::before{content:'—';color:var(--accent);flex-shrink:0;font-weight:300}
+
+/* RESUME */
+#resume{background:var(--navy);padding:clamp(3rem,7vh,5rem) clamp(1.5rem,5vw,4rem);display:grid;grid-template-columns:1fr auto;align-items:center;gap:2rem;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.resume-eyebrow{font-family:var(--font-mono);font-size:var(--fs-label);letter-spacing:0.2em;text-transform:uppercase;color:var(--accent-2);margin-bottom:0.5rem}
+.resume-heading{font-family:var(--font-head);font-size:clamp(1.5rem,3vw,2.5rem);font-weight:700;text-transform:uppercase;letter-spacing:-0.01em;color:var(--white);line-height:1}
+.btn-resume{display:inline-flex;align-items:center;gap:0.75rem;font-family:var(--font-head);font-size:var(--fs-label);font-weight:700;letter-spacing:0.18em;text-transform:uppercase;background:transparent;color:var(--accent-2);border:1px solid var(--accent-2);padding:1em 2em;text-decoration:none;transition:all 0.2s;white-space:nowrap}
+.btn-resume::after{content:'↓';font-size:0.9rem;transition:transform 0.2s}
+.btn-resume:hover{background:var(--accent-2);color:var(--navy)}
+.btn-resume:hover::after{transform:translateY(3px)}
+
+/* CONTACT — sticky big heading */
+#contact{background:var(--off);padding:clamp(5rem,12vh,9rem) clamp(1.5rem,5vw,4rem);position:relative}
+.contact-inner{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(2rem,6vw,6rem);align-items:start}
+.contact-left{position:sticky;top:90px}
+.contact-heading{font-family:var(--font-head);font-size:var(--fs-display);font-weight:800;text-transform:uppercase;letter-spacing:-0.02em;line-height:0.9;color:var(--navy);margin-bottom:1.5rem}
+.contact-heading em{display:block;color:transparent;-webkit-text-stroke:1.5px rgba(7,21,37,0.25);font-style:normal}
+.contact-subtext{font-size:1rem;line-height:1.75;color:var(--g500);max-width:380px}
+.contact-item{display:flex;align-items:center;gap:1.25rem;padding:1.4rem 0;border-bottom:1px solid var(--rule-light);transition:padding-left 0.25s var(--ease)}
+.contact-item:first-of-type{border-top:1px solid var(--rule-light)}
+.contact-item:hover{padding-left:0.5rem}
+.contact-label{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--g300);width:75px;flex-shrink:0}
+.contact-val{font-family:var(--font-head);font-size:1rem;font-weight:500;color:var(--navy);text-decoration:none;transition:color 0.15s;letter-spacing:0.01em;word-break:break-all}
+.contact-val:hover{color:var(--accent)}
+.contact-cta{display:inline-flex;align-items:center;gap:0.75rem;font-family:var(--font-head);font-size:var(--fs-label);font-weight:700;letter-spacing:0.18em;text-transform:uppercase;background:var(--navy);color:var(--white);padding:1em 2em;text-decoration:none;transition:all 0.25s var(--ease);margin-top:2rem}
+.contact-cta::after{content:'→';transition:transform 0.25s var(--ease)}
+.contact-cta:hover{background:var(--accent)}
+.contact-cta:hover::after{transform:translateX(4px)}
+
+/* FOOTER */
+footer{background:var(--navy);padding:1.5rem clamp(1.5rem,5vw,4rem);display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--rule)}
+.footer-copy,.footer-tag{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--g700)}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.8s var(--ease),transform 0.8s var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+.reveal-delay-4{transition-delay:0.4s}
+
+/* MOBILE */
+@media(max-width:900px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:56px;left:0;right:0;background:var(--navy);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--rule)}
+  .nav-links.open .nav-cta{align-self:flex-start}
+  .hero-inner{grid-template-columns:1fr;grid-template-rows:55vh auto}
+  .hero-photo{min-height:55vh}
+  .about-grid,.contact-inner,.exp-grid{grid-template-columns:1fr}
+  .about-left,.contact-left{position:static}
+  .projects-stage{grid-template-columns:1fr}
+  .projects-pin{position:relative;height:auto;min-height:55vh;padding:3rem 1.75rem}
+  .project-visual{position:relative;inset:auto;opacity:1;transform:none}
+  .project-visual:not(.active){display:none}
+  .project-step{min-height:auto;padding:3rem 0}
+  .skills-grid{grid-template-columns:repeat(2,1fr)}
+  #resume{grid-template-columns:1fr;gap:1.5rem}
+  .hero-scroll-hint{display:none}
+}
+@media(max-width:560px){
+  .skills-grid{grid-template-columns:1fr}
+  .about-pillars{grid-template-columns:1fr}
+  .step-meta{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">S.<span>O</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="#about" data-target="about">About</a>
+    <a href="#projects" data-target="projects">Projects</a>
+    <a href="#skills" data-target="skills">Skills</a>
+    <a href="#experience" data-target="experience">Leadership</a>
+    <a href="#contact" class="nav-cta">Contact</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-photo">
+      <img src="profile.jpg" alt="Samuel Olagoke" id="heroPhoto">
+      <div class="hero-photo-tag">Samuel · NJIT</div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <div class="hero-eyebrow-text">Applied AI Engineer · CS Student · Builder</div>
+      </div>
+      <h1 class="hero-name">
+        <span class="first"><span>Samuel</span></span>
+        <span class="last"><span>Olagoke</span></span>
+      </h1>
+      <div class="hero-rule"></div>
+      <p class="hero-tagline">
+        Building <strong>AI-powered products</strong> that solve real problems. Computer Science student at <strong>NJIT</strong>, focused on intelligent systems and workflow automation.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact" class="btn-ghost">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-label reveal">
+    <span class="sec-num">01</span>
+    <div class="sec-title-line"></div>
+  </div>
+  <h2 class="sec-heading reveal">Who I Am</h2>
+  <div class="about-grid" style="margin-top:2.5rem">
+    <div class="about-left reveal">
+      <div class="about-meta">
+        <div class="about-meta-item">
+          <span class="about-meta-key">School</span>
+          <span class="about-meta-val">NJIT</span>
+        </div>
+        <div class="about-meta-item">
+          <span class="about-meta-key">Major</span>
+          <span class="about-meta-val">Computer Science</span>
+        </div>
+        <div class="about-meta-item">
+          <span class="about-meta-key">Status</span>
+          <span class="about-meta-val">Dean's Scholar</span>
+        </div>
+        <div class="about-meta-item">
+          <span class="about-meta-key">Focus</span>
+          <span class="about-meta-val">AI Engineering</span>
+        </div>
+        <div class="about-meta-item">
+          <span class="about-meta-key">Based</span>
+          <span class="about-meta-val">Newark, NJ</span>
+        </div>
+      </div>
+      <div class="about-badge">Open to opportunities</div>
+    </div>
+    <div class="about-right">
+      <p class="about-intro reveal">
+        I build <strong>AI systems and software tools</strong> that do something people actually need — not demos, not experiments that live in a notebook.
+      </p>
+      <p class="about-body reveal reveal-delay-1">
+        Studying Computer Science at NJIT, I've spent my time learning how to close the gap between theory and working product. I care about the intersection of AI capability and product utility — tools that genuinely change how someone works, thinks, or moves through a problem.
+        <br><br>
+        Beyond the technical, I've served in leadership roles that required coordinating teams, managing projects under pressure, and communicating across different levels of an organization. That combination — technical depth paired with execution and communication — is what I bring to every role.
+        <br><br>
+        I'm looking to work on teams where AI is a serious craft, not a feature checkbox.
+      </p>
+      <div class="about-pillars reveal reveal-delay-2">
+        <div class="pillar">
+          <div class="pillar-icon"></div>
+          <div class="pillar-title">AI Systems</div>
+          <div class="pillar-text">Designing intelligent workflows and applied ML tools that integrate into real products.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon"></div>
+          <div class="pillar-title">Product Thinking</div>
+          <div class="pillar-text">Building with user value in mind — not just solving the technical problem.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon"></div>
+          <div class="pillar-title">Engineering Rigor</div>
+          <div class="pillar-text">Systems programming, data structures, and software fundamentals at the core.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon"></div>
+          <div class="pillar-title">Leadership</div>
+          <div class="pillar-text">Demonstrated execution in high-responsibility organizational roles.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS — scrollytelling -->
+<section id="projects">
+  <div class="projects-header">
+    <div class="sec-label reveal">
+      <span class="sec-num">02</span>
+      <div class="sec-title-line"></div>
+    </div>
+    <h2 class="sec-heading reveal">What I Build</h2>
+  </div>
+  <div class="projects-stage">
+    <div class="projects-pin">
+      <div class="projects-pin-grid"></div>
+      <div class="projects-pin-glow"></div>
+      <div class="project-visual active" data-project="1">
+        <div class="pv-num">01</div>
+        <div class="pv-meta">
+          <span class="pv-eyebrow">Featured · Live on Vercel</span>
+          <h3 class="pv-title">Stock AI Sim</h3>
+          <div class="pv-tags">
+            <span class="pv-tag">AI</span>
+            <span class="pv-tag">Finance</span>
+            <span class="pv-tag">EdTech</span>
+            <span class="pv-tag">Vercel</span>
+          </div>
+          <a class="pv-cta" href="https://stock-sim-ai.vercel.app/" target="_blank" rel="noopener">Visit Live Site</a>
+        </div>
+      </div>
+      <div class="project-visual" data-project="2">
+        <div class="pv-num">02</div>
+        <div class="pv-meta">
+          <span class="pv-eyebrow">Workflow · Live on Vercel</span>
+          <h3 class="pv-title">Workflow Builder</h3>
+          <div class="pv-tags">
+            <span class="pv-tag">AI</span>
+            <span class="pv-tag">Automation</span>
+            <span class="pv-tag">CSV → Tasks</span>
+            <span class="pv-tag">Vercel</span>
+          </div>
+          <a class="pv-cta" href="https://skill-cfttqi8fz-5amuel-olas-projects.vercel.app/" target="_blank" rel="noopener">Visit Live Site</a>
+        </div>
+      </div>
+    </div>
+    <div class="projects-scroll">
+      <div class="project-step" data-step="1">
+        <div class="step-eyebrow">Project 01 · Live on Vercel</div>
+        <h3 class="step-title">Stock AI Sim — Learn to trade, without the loss.</h3>
+        <p class="step-desc">An AI-driven stock simulator that teaches users how to trade. Walks new traders through market behavior, position sizing, and decision-making — all in a risk-free simulated environment. The goal: turn confused beginners into informed participants before they touch real capital.</p>
+        <div class="step-meta">
+          <div class="step-meta-item">
+            <div class="step-meta-key">Type</div>
+            <div class="step-meta-val">AI Education Tool</div>
+          </div>
+          <div class="step-meta-item">
+            <div class="step-meta-key">Status</div>
+            <div class="step-meta-val">Live</div>
+          </div>
+          <div class="step-meta-item">
+            <div class="step-meta-key">Stack</div>
+            <div class="step-meta-val">Next.js · AI APIs</div>
+          </div>
+          <div class="step-meta-item">
+            <div class="step-meta-key">Hosted</div>
+            <div class="step-meta-val">Vercel</div>
+          </div>
+        </div>
+        <div class="step-links">
+          <a class="primary" href="https://stock-sim-ai.vercel.app/" target="_blank" rel="noopener">Visit Site</a>
+          <a href="https://github.com/5amuel-Ola" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <div class="project-step" data-step="2">
+        <div class="step-eyebrow">Project 02 · Live on Vercel</div>
+        <h3 class="step-title">Workflow Builder — Meetings into managed tasks.</h3>
+        <p class="step-desc">An AI workflow tool that ingests meeting minutes and CSV files and turns them into structured, reviewable tasks for managers to oversee. Three surfaces only: add source files, inspect the approved workflow, and read the final output in plain language. Built so the automation is transparent — managers see exactly what the AI did before signing off.</p>
+        <div class="step-meta">
+          <div class="step-meta-item">
+            <div class="step-meta-key">Type</div>
+            <div class="step-meta-val">AI Workflow Tool</div>
+          </div>
+          <div class="step-meta-item">
+            <div class="step-meta-key">Input</div>
+            <div class="step-meta-val">Minutes · CSV</div>
+          </div>
+          <div class="step-meta-item">
+            <div class="step-meta-key">Output</div>
+            <div class="step-meta-val">Manager-ready report</div>
+          </div>
+          <div class="step-meta-item">
+            <div class="step-meta-key">Hosted</div>
+            <div class="step-meta-val">Vercel</div>
+          </div>
+        </div>
+        <div class="step-links">
+          <a class="primary" href="https://skill-cfttqi8fz-5amuel-olas-projects.vercel.app/" target="_blank" rel="noopener">Visit Site</a>
+          <a href="https://github.com/5amuel-Ola" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="skills-grid-bg"></div>
+  <div class="sec-label reveal">
+    <span class="sec-num" style="color:var(--accent-2)">03</span>
+    <div class="sec-title-line" style="background:var(--rule)"></div>
+  </div>
+  <h2 class="sec-heading sec-heading-light reveal">What I Know</h2>
+  <div class="skills-grid" style="margin-top:2.5rem">
+    <div class="skill-col reveal">
+      <div class="skill-col-title">Programming</div>
+      <div class="skill-item"><span>Python</span></div>
+      <div class="skill-item"><span>JavaScript</span></div>
+      <div class="skill-item"><span>C++</span></div>
+      <div class="skill-item"><span>Java</span></div>
+      <div class="skill-item"><span>SQL</span></div>
+      <div class="skill-item"><span>HTML / CSS</span></div>
+    </div>
+    <div class="skill-col reveal reveal-delay-1">
+      <div class="skill-col-title">AI &amp; Product</div>
+      <div class="skill-item"><span>Prompt Engineering</span></div>
+      <div class="skill-item"><span>AI Workflow Design</span></div>
+      <div class="skill-item"><span>Automation Design</span></div>
+      <div class="skill-item"><span>NLP Applications</span></div>
+      <div class="skill-item"><span>Product Thinking</span></div>
+      <div class="skill-item"><span>API Integration</span></div>
+    </div>
+    <div class="skill-col reveal reveal-delay-2">
+      <div class="skill-col-title">Tools &amp; Infra</div>
+      <div class="skill-item"><span>Git / GitHub</span></div>
+      <div class="skill-item"><span>Node.js</span></div>
+      <div class="skill-item"><span>Vercel</span></div>
+      <div class="skill-item"><span>Google Workspace</span></div>
+      <div class="skill-item"><span>VS Code</span></div>
+      <div class="skill-item"><span>REST APIs</span></div>
+    </div>
+    <div class="skill-col reveal reveal-delay-3">
+      <div class="skill-col-title">Professional</div>
+      <div class="skill-item"><span>Project Management</span></div>
+      <div class="skill-item"><span>Technical Communication</span></div>
+      <div class="skill-item"><span>Team Leadership</span></div>
+      <div class="skill-item"><span>Problem Decomposition</span></div>
+      <div class="skill-item"><span>Stakeholder Alignment</span></div>
+      <div class="skill-item"><span>Execution Under Pressure</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP — slim -->
+<section id="experience">
+  <div class="sec-label reveal">
+    <span class="sec-num">04</span>
+    <div class="sec-title-line"></div>
+  </div>
+  <h2 class="sec-heading reveal">Leadership</h2>
+  <div class="exp-grid" style="margin-top:2.5rem">
+    <div class="exp-card reveal" data-num="01">
+      <div class="exp-org">Residence Hall Association · NJIT</div>
+      <div class="exp-role">VP of Administration</div>
+      <ul class="exp-points">
+        <li>Liaison between student residents and university administration</li>
+        <li>Translated student concerns into actionable policy proposals</li>
+        <li>Coordinated executive meetings and organizational documentation</li>
+      </ul>
+    </div>
+    <div class="exp-card reveal reveal-delay-1" data-num="02">
+      <div class="exp-org">Impact Generation Youth Group</div>
+      <div class="exp-role">Executive Board Member</div>
+      <ul class="exp-points">
+        <li>Led initiative planning and multi-volunteer project coordination</li>
+        <li>Implemented Trello and Google Sheets project tracking</li>
+        <li>Drove engagement that expanded membership and participation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-left reveal">
+      <h2 class="contact-heading">
+        Let's<br>
+        Build<br>
+        <em>Something.</em>
+      </h2>
+      <p class="contact-subtext">If you're hiring for AI engineering, applied ML, or product engineering roles — I'd like to talk. Early-career, capable, focused on doing serious work.</p>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="contact-item">
+        <span class="contact-label">Email</span>
+        <a href="mailto:solagoke2@gmail.com" class="contact-val">solagoke2@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">LinkedIn</span>
+        <a href="https://www.linkedin.com/in/olagoke-samuel" target="_blank" rel="noopener" class="contact-val">linkedin.com/in/olagoke-samuel</a>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">GitHub</span>
+        <a href="https://github.com/5amuel-Ola" target="_blank" rel="noopener" class="contact-val">github.com/5amuel-Ola</a>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Location</span>
+        <span class="contact-val" style="cursor:default">Newark, NJ</span>
+      </div>
+      <a href="mailto:solagoke2@gmail.com" class="contact-cta">Send a Message</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">© 2026 Samuel Olagoke</span>
+  <span class="footer-tag">Applied AI Engineer · NJIT</span>
+</footer>
+
+<script>
+function toggleNav(){
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+/* Scroll progress bar */
+const progress=document.getElementById('scrollProgress');
+function updateProgress(){
+  const h=document.documentElement;
+  const max=h.scrollHeight-h.clientHeight;
+  const pct=max>0?(h.scrollTop/max)*100:0;
+  progress.style.width=pct+'%';
+}
+window.addEventListener('scroll',updateProgress,{passive:true});
+updateProgress();
+
+/* Reveal-on-scroll */
+const revealObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+/* Hero photo parallax */
+const heroPhoto=document.getElementById('heroPhoto');
+if(heroPhoto){
+  window.addEventListener('scroll',()=>{
+    const y=window.scrollY;
+    if(y<window.innerHeight){
+      heroPhoto.style.transform=`scale(1.05) translateY(${y*0.12}px)`;
+    }
+  },{passive:true});
+}
+
+/* Project pin sync — swap pinned visual based on active step */
+const steps=document.querySelectorAll('.project-step');
+const visuals=document.querySelectorAll('.project-visual');
+const stepObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx=e.target.getAttribute('data-step');
+      visuals.forEach(v=>v.classList.toggle('active',v.getAttribute('data-project')===idx));
+    }
+  });
+},{threshold:0.5,rootMargin:'-20% 0px -20% 0px'});
+steps.forEach(s=>stepObs.observe(s));
+
+/* Active nav link by section */
+const navLinks=document.querySelectorAll('.nav-links a[data-target]');
+const sectionEls=Array.from(navLinks).map(a=>document.getElementById(a.getAttribute('data-target'))).filter(Boolean);
+const navObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      navLinks.forEach(l=>l.classList.toggle('active',l.getAttribute('data-target')===id));
+    }
+  });
+},{threshold:0.35});
+sectionEls.forEach(s=>navObs.observe(s));
+
+/* Smooth scroll for in-page anchors */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',function(e){
+    const id=this.getAttribute('href');
+    if(id==='#')return;
+    const target=document.querySelector(id);
+    if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth'});}
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>
